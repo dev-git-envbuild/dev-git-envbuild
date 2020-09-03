@@ -25,7 +25,7 @@ variable "post_install_script_uri" {
 variable "hostname" {
   type        = "string"
   description = "Your hostname"
-  default = "khayama-test"
+  default = "naka-test"
 }
 
 
@@ -38,13 +38,16 @@ data "ibm_compute_ssh_key" "root_public_key" {
     label = "${var.var_root_public_key}"
 }
 
-variable "public_security_group" {
+variable "var_private_sg" {
   type        = "string"
   description = "Your security group"
   default = "security_group"
 }
+data "ibm_security_group" "private_sg" {
+    name = "${var.var_private_sg}"
+}
 
-resource "ibm_compute_vm_instance" "khayama-test" {
+resource "ibm_compute_vm_instance" "naka-test" {
     hostname = "${var.hostname}"
     domain = "ibmcloud.com"
     os_reference_code = "${var.os_reference_code}"
@@ -55,9 +58,9 @@ resource "ibm_compute_vm_instance" "khayama-test" {
     local_disk = false
     private_network_only = false
     flavor_key_name = "${var.flavor_key_name}"
-    public_security_group_ids = ["${var.public_security_group.id}"]
-    tags = ["owner:khayama"]
+    public_security_group_ids = ["${data.ibm_security_group.public_sg.id}"]
+    tags = ["owner:naka"]
     post_install_script_uri = "${var.post_install_script_uri}"
-    notes = "khayama's Resource created by Schematics"
+    notes = "naka Resource created by Schematics"
     ssh_key_ids = ["${data.ibm_compute_ssh_key.root_public_key.id}"]
 }
