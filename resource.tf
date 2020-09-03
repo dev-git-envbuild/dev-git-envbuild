@@ -44,7 +44,7 @@ variable "var_public_sg" {
   default = "security_group"
 }
 data "ibm_security_group" "public_sg" {
-    label = "${var.var_public_sg}"
+    name = "${var.var_public_sg}"
 }
 
 resource "ibm_compute_vm_instance" "naka-test" {
