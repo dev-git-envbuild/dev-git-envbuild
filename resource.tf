@@ -34,6 +34,12 @@ variable "ssh_key" {
   default = "key"
 }
 
+variable "public_security_group" {
+  type        = "string"
+  description = "Your security group"
+  default = "security_group"
+}
+
 resource "ibm_compute_vm_instance" "khayama-test" {
     hostname = "${var.hostname}"
     domain = "ibmcloud.com"
@@ -45,9 +51,9 @@ resource "ibm_compute_vm_instance" "khayama-test" {
     local_disk = false
     private_network_only = false
     flavor_key_name = "${var.flavor_key_name}"
-    public_security_group_ids = [1287613]
+    public_security_group_ids = ["${var.public_security_group.id}"]
     tags = ["owner:khayama"]
     post_install_script_uri = "${var.post_install_script_uri}"
     notes = "khayama's Resource created by Schematics"
-    ssh_key_ids = "${var.ssh_key.id}"
+    ssh_key_ids = ["${var.ssh_key.id}"]
 }
