@@ -28,10 +28,14 @@ variable "hostname" {
   default = "khayama-test"
 }
 
-variable "ssh_key" {
-  type        = "string"
+
+variable "var_root_public_key" {
+ type        = "string"
   description = "Your ssh"
   default = "key"
+}
+data "ibm_compute_ssh_key" "root_public_key" {
+    label = "${var.var_root_public_key}"
 }
 
 variable "public_security_group" {
@@ -55,5 +59,5 @@ resource "ibm_compute_vm_instance" "khayama-test" {
     tags = ["owner:khayama"]
     post_install_script_uri = "${var.post_install_script_uri}"
     notes = "khayama's Resource created by Schematics"
-    ssh_key_ids = ["${var.ssh_key.id}"]
+    ssh_key_ids = ["${data.ibm_compute_ssh_key.root_public_key.id}"]
 }
