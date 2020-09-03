@@ -47,6 +47,12 @@ data "ibm_security_group" "public_sg" {
     name = "${var.var_public_sg}"
 }
 
+variable "public_sg_id" {
+  type        = "string"
+  description = "Your hostname"
+  default = "11111"
+}
+
 resource "ibm_compute_vm_instance" "naka-test" {
     hostname = "${var.hostname}"
     domain = "ibmcloud.com"
@@ -58,7 +64,8 @@ resource "ibm_compute_vm_instance" "naka-test" {
     local_disk = false
     private_network_only = false
     flavor_key_name = "${var.flavor_key_name}"
-    public_security_group_ids = ["${data.ibm_security_group.public_sg.id}"]
+    //public_security_group_ids = ["${data.ibm_security_group.public_sg.id}"]
+    public_security_group_ids = ["${var.public_sg_id}"]
     tags = ["owner:naka"]
     post_install_script_uri = "${var.post_install_script_uri}"
     notes = "naka Resource created by Schematics"
