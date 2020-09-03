@@ -38,13 +38,13 @@ data "ibm_compute_ssh_key" "root_public_key" {
     label = "${var.var_root_public_key}"
 }
 
-variable "var_private_sg" {
+variable "var_public_sg" {
   type        = "string"
   description = "Your security group"
   default = "security_group"
 }
-data "ibm_security_group" "private_sg" {
-    name = "${var.var_private_sg}"
+data "ibm_security_group" "public_sg" {
+    name = "${var.var_public_sg}"
 }
 
 resource "ibm_compute_vm_instance" "naka-test" {
