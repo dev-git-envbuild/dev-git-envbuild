@@ -28,6 +28,12 @@ variable "hostname" {
   default = "khayama-test"
 }
 
+variable "ssh_key" {
+  type        = "string"
+  description = "Your ssh"
+  default = "key"
+}
+
 resource "ibm_compute_vm_instance" "khayama-test" {
     hostname = "${var.hostname}"
     domain = "ibmcloud.com"
@@ -43,5 +49,5 @@ resource "ibm_compute_vm_instance" "khayama-test" {
     tags = ["owner:khayama"]
     post_install_script_uri = "${var.post_install_script_uri}"
     notes = "khayama's Resource created by Schematics"
-    ssh_key_ids = [1906764]
+    ssh_key_ids = "${var.ssh_key.id}"
 }
